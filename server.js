@@ -1,6 +1,37 @@
 
 const express = require('express');
 const app = express();
+const mysql = require('mysql');
+const bodyParser = require('body-parser');
+
+const users = [];
+var currentUser = "";
+
+app.use(bodyParser.urlencoded({ extended: true })); 
+
+/*
+var con = mysql.createConnection({
+  host: "prid0006.database.windows.net",
+  dbname: "cs-dsa-4513-sql-db",
+  user: "prid0006",
+  password: "LBarnes01"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
+
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Result: " + result);
+  });
+});
+*/
 
 const path = require('path');
 
@@ -10,11 +41,30 @@ const PORT = process.env.PORT || 3000
 const intialRoute = require("./routes/initial")
 const loginRoute = require("./routes/login")
 
+//var connection = new ActiveXObject("ADODB.Connection");
+
 app.use(express.static(__dirname));
 app.use("/initial", intialRoute)
-app.use("/login", loginRoute)
+//app.use("/login", loginRoute)
 
 /*
+const sql = require('mssql');
+
+const config = {
+    user: 'prid0006', // better stored in an app setting such as process.env.DB_USER
+    password: 'LBarnes01', // better stored in an app setting such as process.env.DB_PASSWORD
+    server: 'rid0006.database.windows.ne', // better stored in an app setting such as process.env.DB_SERVER
+    port: 1433, // optional, defaults to 1433, better stored in an app setting such as process.env.DB_PORT
+    database: 'cs-dsa-4513-sql-db', // better stored in an app setting such as process.env.DB_NAME
+    authentication: {
+        type: 'default'
+    },
+    options: {
+        encrypt: true
+    }
+}
+
+
 //where we expose files or directories for public use
 app.use(',', express.static(path.join(__dirname, '/public')));
 
@@ -23,6 +73,7 @@ app.use(',', express.static(path.join(__dirname, '/public')));
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+  <script>src = "/Users/harivansh/Documents/School/CS3203/testweb/routes/login.js" </script>
 
 
 //Use a static file /css
@@ -43,7 +94,54 @@ app.post("/", (req, res) => {
 //The port the app will listen on
 app.listen(PORT, () => console.log(`server running on port ${PORT}`))
 
+app.get("/index", (req, res) => {
+  res.sendFile('/Users/harivansh/Documents/School/CS3203/testweb/projects/index.html')
+})
+
+app.post("/index", (req, res) => {
+  const email = req.body.name
+  const password = req.body.password
+  users.push(email)
+  currentUser = email
+  res.sendFile('/Users/harivansh/Documents/School/CS3203/testweb/projects/first.html')
+
+})
+app.post("/login", (req, res) => {
+  if(users.includes(currentUser)){
+    console.log("found")
+    res.sendFile('/Users/harivansh/Documents/School/CS3203/testweb/projects/first.html')
+  }
+  });
+  app.get("/login", (req, res) => {
+    res.sendFile('/Users/harivansh/Documents/School/CS3203/testweb/projects/login.html')
+    //res.send("<html> <head>server Response</head><body><h1> This page was render direcly from the server <p>Hello there welcome to my website</p></h1></body></html>");
+  });
+
+app.post("/restaurants", (req, res) => {
+
+})
+
 app.get("/", (req, res) => {
   res.sendFile('/Users/harivansh/Documents/School/CS3203/testweb/projects/first.html')
   //res.send("<html> <head>server Response</head><body><h1> This page was render direcly from the server <p>Hello there welcome to my website</p></h1></body></html>");
 });
+
+/*
+<script>
+const form = document.getElementById('form');
+const email = document.getElementById("yourem")
+const password = document.getElementById("pass")
+\
+form.addEventListener('submit', function(e) {
+e.preventDefault();
+
+const first = email.value;
+const second = password.value
+
+console.log(first)
+console.log(second)
+
+
+})
+</script>
+*/

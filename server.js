@@ -4,8 +4,8 @@ const app = express();
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
-const users = [];
-var currentUser = "";
+let users = [];
+let currentUser = "";
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
@@ -107,9 +107,18 @@ app.post("/index", (req, res) => {
 
 })
 app.post("/login", (req, res) => {
-  if(users.includes(currentUser)){
-    console.log("found")
-    res.sendFile('/Users/harivansh/Documents/School/CS3203/testweb/projects/first.html')
+  const input = req.body.email
+  if(users.includes(input)){
+    console.log(currentUser)
+    console.log(input)
+
+    res.sendFile('/Users/harivansh/Documents/School/CS3203/testweb/projects/restaurants.html')
+  }
+  else{
+    //res.sendFile('/Users/harivansh/Documents/School/CS3203/testweb/projects/login.html')
+    res.sendFile('/Users/harivansh/Documents/School/CS3203/testweb/projects/login.html')
+    req.window.alert("Please use")
+    //show()
   }
   });
   app.get("/login", (req, res) => {
@@ -145,3 +154,7 @@ console.log(second)
 })
 </script>
 */
+
+function show(){
+  window.alert("stop cuh")
+}
